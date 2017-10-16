@@ -106,11 +106,13 @@ void filter(VectorXd &x, MatrixXd &P);
 		//call Kalman filter algorithm
 		filter(xObjectState, PObjectCovariance);
 
+		system("pause");
+
 		return 0;
 	}
 
 
-	void filter(VectorXd &x, MatrixXd &PObjectCovariance) {
+	void filter(VectorXd &xObjectState, MatrixXd &PObjectCovariance) {
 
 		for (unsigned int n = 0; n < measurements.size(); ++n) {
 
@@ -118,21 +120,24 @@ void filter(VectorXd &x, MatrixXd &P);
 			//YOUR CODE HERE
 
 			// KF Measurement update step
-			VectorXd yError = zMeassurement - HMeassurement * x;
+			VectorXd yError = zMeassurement - HMeassurement * xObjectState;
 			MatrixXd Ht = HMeassurement.transpose();
 			MatrixXd S = HMeassurement * PObjectCovariance * Ht + RMeassurementCovariance;
 			MatrixXd Si = S.inverse();
 			MatrixXd K = PObjectCovariance * Ht * Si;
 
 			// new state
-			x = x + (K * yError);
+			xObjectState = xObjectState + (K * yError);
 			PObjectCovariance = (Identity - K * HMeassurement) * PObjectCovariance;
 
 			// KF Prediction step
+			xObjectState = FStatetransition * xObjectState + uExternalMotion;
+			MatrixXd Ft = FStatetransition.transpose();
+			PObjectCovariance = FStatetransition * PObjectCovariance * Ft + QProcessCovariance;
 
-			std::cout << "x=" << std::endl << x << std::endl;
-			std::cout << "P=" << std::endl << PObjectCovariance << std::endl;
+			cout << "xObjectState=" << endl << xObjectState << endl;
+			cout << "PObjectCovariance=" << endl << PObjectCovariance << endl;
 
-
+			cout << endl;
 		}
 	}
