@@ -143,20 +143,26 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <Text Include="obj_pose-laser-radar-synthetic-input.txt" />
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="kalman_filter.h" />
+    <ClInclude Include="measurement_package.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="tracking.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="KalmanFiltersTest.cpp" />
+    <ClCompile Include="kalman_filter.cpp" />
+    <ClCompile Include="main.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="tracking.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
