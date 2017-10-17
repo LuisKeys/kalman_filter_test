@@ -74,6 +74,45 @@ void Tracking::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
 	//4. Call the Kalman Filter update() function
 	// with the most recent raw measurements_
 
+	//1
+	kf_.F_(0, 2) = dt;
+	kf_.F_(1, 3) = dt;
+	
+	//2
+	float dt_2 = dt * dt;
+	float dt_3 = dt_2 * dt;
+	float dt_4 = dt_3 * dt;
+
+	kf_.Q_ = MatrixXd(4, 4);
+
+	//Q row 1
+	kf_.Q_(0, 0) = dt_4 / 4 * noise_ax;
+	kf_.Q_(0, 1) = 0;
+	kf_.Q_(0, 2) = dt_3 / 2 * noise_ax;
+	kf_.Q_(0, 3) = 0;
+
+	//Q row 2
+	kf_.Q_(1, 0) = 0;
+	kf_.Q_(1, 1) = dt_4 / 4 * noise_ay;
+	kf_.Q_(1, 2) = 0;
+	kf_.Q_(1, 3) = dt_3 / 2 * noise_ay;
+
+	//Q row 3
+	kf_.Q_(2, 0) = dt_3 / 2 * noise_ax;
+	kf_.Q_(2, 1) = 0;
+	kf_.Q_(2, 2) = dt_2 * noise_ax;
+	kf_.Q_(2, 3) = 0;
+
+	//Q row 4
+	kf_.Q_(3, 0) = 0;
+	kf_.Q_(3, 1) = dt_3 / 2 * noise_ay;
+	kf_.Q_(3, 2) = 0;
+	kf_.Q_(3, 3) = dt_2* noise_ay;
+
+	kf_.Predict();
+
+	kf_.Update(measurement_pack.raw_measurements_);
+
 	std::cout << "x_= " << kf_.x_ << std::endl;
 	std::cout << "P_= " << kf_.P_ << std::endl;
 
