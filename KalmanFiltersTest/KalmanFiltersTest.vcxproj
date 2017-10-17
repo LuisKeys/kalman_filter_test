@@ -156,6 +156,7 @@
   <ItemGroup>
     <ClCompile Include="kalman_filter.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="radar_mapping.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
